@@ -5,6 +5,7 @@ import os
 import subprocess
 import sys
 import re
+import runpy
 from distutils.spawn import find_executable
 
 from setuptools import setup
@@ -13,7 +14,10 @@ from setuptools.command.build_py import build_py
 # configure the version number
 from shutil import copyfile
 copyfile('VERSION', 'version.py')
-from version import *
+version_info = runpy.run_path('version.py')
+VERSION_MAJOR = version_info['VERSION_MAJOR']
+VERSION_MINOR = version_info['VERSION_MINOR']
+VERSION_PATCH = version_info['VERSION_PATCH']
 with open("osi_version.proto.in", "rt") as fin:
     with open("osi_version.proto", "wt") as fout:
         for line in fin:
@@ -114,7 +118,7 @@ setup(
     'Nils.Hirsenkorn@tum.de, Pilar.Garcia-Ramos@bmw.de,'
     'Mark.Schiementz@bmw.de, Sebastian.SB.Schneider@bmw.de',
     packages=[package_name],
-    install_requires=['protobuf'],
+    install_requires=['protobuf>=6.30.2,<7'],
     cmdclass={
         'build_py': GenerateProtobufCommand,
     },

@@ -1,0 +1,4 @@
+include VERSION
+include osi_*.proto
+include osi_version.proto.in
+include LICENSE
